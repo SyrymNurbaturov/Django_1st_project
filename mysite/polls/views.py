@@ -8,21 +8,9 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.pagination import LimitOffsetPagination
 from .models import Question, Choice
 from .serializers import *
-
-
-
-class IndexAPIView(APIView, LimitOffsetPagination):
-
-    def get(self, request):
-        q = Question.objects.all()
-        paginator = PageNumberPagination()
-        paginator.page_size = 3
-        paginator.page_query_param = 'page_size'
-        paginator.max_page_size = 100
-        result = paginator.paginate_queryset(q, request)
-        serializer = QuestionSerializer(result, many=True)
-        return Response(serializer.data)
-
+from django.core.paginator import Paginator
+from django.shortcuts import render
+from django.conf import settings
 class AddView(APIView):
 
     def post(self, request):
@@ -58,6 +46,20 @@ class DeleteView(APIView):
             serializers = QuestionSerializer(instance)
             instance.delete()
             return Response(serializers.data)
+
+class IndexAPIView(APIView, LimitOffsetPagination):
+    template_name = 'polls/index.html'
+    question_size = 'latest_question_list'
+    def get(self, request):
+        q = Question.objects.all()
+        paginator = PageNumberPagination()
+        paginator.page_size = 3
+        paginator.page_query_param = 'page_size'
+        paginator.max_page_size = 100
+        result = paginator.paginate_queryset(q, request)
+        serializer = QuestionSerializer(result, many=True)
+        return Response(serializer.data)
+
 
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
