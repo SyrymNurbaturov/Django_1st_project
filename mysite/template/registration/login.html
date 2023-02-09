@@ -1,0 +1,47 @@
+{#{% if request.user.is_authenticated %}#}
+{#    <b>You've already logged in</b>#}
+{#    <a href="{% url 'polls:index' %}"><i class="bi bi-list-task"></i> Main page</a>#}
+{#    {% else %}#}
+{#            {% block content %}#}
+{#<h1>{{title}}</h1>#}
+{##}
+{#<form method="post">#}
+{#    {% csrf_token %}#}
+{##}
+{#<div class="form-error">{{ form.non_field_errors }}</div>#}
+{##}
+{#{% for f in form %}#}
+{#<p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>#}
+{#<div class="form-error">{{ f.errors }}</div>#}
+{#{% endfor %}#}
+{##}
+{#    <button type="submit">Войти</button>#}
+{#</form>#}
+{#    <a href="{% url 'polls:register'%}">Регистрация</a>#}
+{#{% endblock %}#}
+{#    {% endif %}#}
+{##}
+{##}
+{##}
+{##}
+            {% block content %}
+<h1>{{title}}</h1>
+
+<form method="post">
+    {% csrf_token %}
+
+<div class="form-error">{{ form.non_field_errors }}</div>
+
+{% for f in form %}
+<p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
+<div class="form-error">{{ f.errors }}</div>
+{% endfor %}
+
+    <button type="submit">Войти</button>
+</form>
+    <a href="{% url 'polls:register'%}">Регистрация</a>
+{% endblock %}
+
+
+
+

@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.conf import settings
 # Create your models here.
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
@@ -19,3 +19,9 @@ class Choice(models.Model):
     def __str__(self):
         return self.choice_text
 
+class UserChoices(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )

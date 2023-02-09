@@ -2,9 +2,10 @@ from rest_framework import serializers
 
 from .models import *
 
-class QuestionSerializer(serializers.Serializer):
-    question_text = serializers.CharField(max_length=200)
-    pub_date = serializers.DateTimeField()
+class QuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Question
+        fields = "__all__"
     def create(self, validated_data):
         return Question.objects.create(**validated_data)
     def update(self, instance, validated_data):
@@ -13,7 +14,10 @@ class QuestionSerializer(serializers.Serializer):
         instance.save()
         return instance
 
-class ChoiceSerializer(serializers.Serializer):
-    question_text = serializers.CharField(max_length=200)
-    pub_date = serializers.DateTimeField()
-    votes = serializers.IntegerField(default=0)
+class ChoiceSerializer(serializers.ModelSerializer):
+    # question_text = serializers.CharField(max_length=200)
+    # pub_date = serializers.DateTimeField()
+    # votes = serializers.IntegerField(default=0)
+    class Meta:
+        model = Question
+        fields = "__all__"

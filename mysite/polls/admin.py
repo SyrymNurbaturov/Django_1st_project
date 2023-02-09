@@ -15,4 +15,8 @@ class QuestionAdmin(admin.ModelAdmin):
     ]
     inlines = [ChoiceInline]
 
+class AnswerStore(admin.ModelAdmin):
+    model = UserChoices
+
 admin.site.register(Question, QuestionAdmin)
+admin.site.register(UserChoices, AnswerStore)

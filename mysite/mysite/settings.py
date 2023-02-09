@@ -49,11 +49,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'polls.middleware.middleware.OneAttemptMiddleware'
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 2,
+    'DEFAULT_PERMISSION_CLASSES': [
+       'rest_framework.permissions.AllowAny','rest_framework.permissions.IsAuthenticated', 'rest_framework.permissions.IsAdminUser'
+    ]
 }
 
 ROOT_URLCONF = 'mysite.urls'
@@ -86,6 +90,8 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+LOGIN_REDIRECT_URL = '/polls'
 
 
 # Password validation
@@ -128,3 +134,4 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

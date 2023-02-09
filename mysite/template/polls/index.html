@@ -1,18 +1,41 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    {% if latest_question_list %}
-    <ul>
-    {% for question in latest_question_list %}
-       <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
-    {% endfor %}
-    </ul>
+    <p>Welcome {{ user.username }} !!!</p>
+    {% if question_list %}
+    <table id="questions">
+        {% for question in question_list %}
+            <tr>
+                <td>{{ q.model }}</td>
+                <td>{{ q.year }}</td>
+               <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+            </tr>
+        {% endfor %}
+    </table>
+    {# .... **Now the pagination section** .... #}
+    {% if is_paginated %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="/polls/?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="/polls/?page={{ page_obj.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
 {% else %}
-    <p>No polls are available.</p>
+    <p>No question found!!! :(</p>
 {% endif %}
+    <a href="{% url 'polls:logout' %}">Выйти</a>
 </head>
 <body>
-
 </body>
 </html>
+
